@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 👨
+    function Father() {
+
+    }
+    Father.prototype.playkongfu = function () {
+        console.log("技能：功夫");
+    }
+    Father.prototype.sing = function () {
+        console.log("技能:唱歌");
+    }
+    // 👩
+    function Mother() {
+
+    }
+    Mother.prototype.dance = function () {
+        console.log("技能:跳舞")
+    }
+    Mother.prototype.cook = function () {
+        console.log("技能:煮饭");
+    }
+    //👧
+    function Daughter() {
+        Father.call(this);
+        Mother.call(this);
+    }
+    // 妈妈的原型给女儿
+    Daughter.prototype = Object.create(Mother.prototype);
+    // 将爸爸原型上的方法和属性给女儿
+    Object.assign(Daughter.prototype, Father.prototype);
+    // 修正女儿的构造函数
+    Daughter.prototype.constructor = Daughter;
+    let lily = new Daughter();
+    console.log(lily.playkongfu(), lily.dance(), lily.sing());
+
+    // 👦
+    function Son() {
+        Father.call(this);
+        Mother.call(this);
+    }
+    // 妈妈的原型给女儿
+    Son.prototype = Object.create(Mother.prototype,{
+        name:{
+            writable:true,
+            enumerable:true,
+            configurable:true,
+            value:"Tom"
+        }
+    });
+    // Son.prototype = new Mother();
+    // 将爸爸原型上的方法和属性给女儿
+    Object.assign(Son.prototype, Father.prototype);
+    // 修正女儿的构造函数
+    Son.prototype.constructor = Son;
+    let tom = new Son();
+    console.log(tom.playkongfu(), tom.dance(), tom.sing(),tom.name);
+
+</script>
+
+</html>
